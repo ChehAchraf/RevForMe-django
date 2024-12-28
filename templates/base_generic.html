@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    @keyframes gradient-x {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+    .animate-gradient-x {
+        background-size: 200% 200%;
+        animation: gradient-x 15s ease infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+    .animate-float-delay {
+        animation: float 7s ease-in-out infinite;
+        animation-delay: 2s;
+    }
+    .animate-float-reverse {
+        animation: float 5s ease-in-out infinite reverse;
+    }
+
+    @keyframes slide-in-up {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-in-up {
+        animation: slide-in-up 0.8s forwards;
+    }
+
+    @keyframes slide-in-right {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-slide-in-right {
+        animation: slide-in-right 0.8s forwards;
+    }
+
+    @keyframes border-shine {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    .animate-border-shine {
+        animation: border-shine 3s infinite linear;
+    }
+
+    .animate-delay-100 { animation-delay: 0.1s; }
+    .animate-delay-200 { animation-delay: 0.2s; }
+    .animate-delay-300 { animation-delay: 0.3s; }
+    .animate-delay-400 { animation-delay: 0.4s; }
+    .animate-delay-500 { animation-delay: 0.5s; }
+
+    @keyframes pulse-soft {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    .animate-pulse-soft {
+        animation: pulse-soft 2s ease-in-out infinite;
+    }
+</style>
+
+    <script>
+        // Tailwind Dark Mode Configuration
+        tailwind.config = {
+            darkMode: 'class'
+        }
+
+        // Dark Mode Persistence
+        function setupDarkMode() {
+            // Check local storage for dark mode preference
+            if (localStorage.getItem('dark-mode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+
+            // Dark Mode Toggle Functionality
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const moonIcon = document.getElementById('moonIcon');
+            const sunIcon = document.getElementById('sunIcon');
+
+            darkModeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                
+                // Update icon visibility
+                moonIcon.classList.toggle('hidden');
+                sunIcon.classList.toggle('hidden');
+
+                // Save preference to local storage
+                localStorage.setItem('dark-mode', 
+                    document.documentElement.classList.contains('dark')
+                );
+            });
+
+            // Initial icon state based on current mode
+            if (document.documentElement.classList.contains('dark')) {
+                moonIcon.classList.remove('hidden');
+                sunIcon.classList.add('hidden');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', setupDarkMode);
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 transition-colors duration-300">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0">
+                        <span class="text-2xl font-bold text-gray-900 dark:text-white">
+                            ReservePro
+                        </span>
+                    </a>
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
+                            Home
+                        </a>
+                        <a href="#" class="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
+                            Features
+                        </a>
+                        <a href="#" class="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
+                            Pricing
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="bg-gray-200 dark:bg-gray-700 p-2 rounded-full mr-4">
+                        <svg id="moonIcon" class="w-6 h-6 text-gray-800 dark:text-yellow-300 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="sunIcon" class="w-6 h-6 text-yellow-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Adjusted for Navbar) -->
+    <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-black opacity-90 animate-gradient-x"></div>
+    
+    <!-- Floating Particles -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute animate-float top-[10%] left-[5%] w-16 h-16 bg-white/10 rounded-full blur-xl"></div>
+        <div class="absolute animate-float-delay top-[80%] right-[15%] w-24 h-24 bg-blue-500/20 rounded-full blur-xl"></div>
+        <div class="absolute animate-float-reverse left-[70%] top-[30%] w-12 h-12 bg-purple-500/20 rounded-full blur-xl"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 container mx-auto px-32 grid md:grid-cols-2 items-center gap-12">
+        <!-- Left Content with Staggered Animation -->
+        <div class="space-y-8">
+            <div class="opacity-0 transform translate-y-10 animate-slide-in-up animate-delay-100 bg-white/10 inline-block px-4 py-2 rounded-full">
+                <span class="text-blue-300 text-sm tracking-wide">
+                    Next-Gen Reservation System
+                </span>
+            </div>
+
+            <h1 class="opacity-0 transform translate-y-10 animate-slide-in-up animate-delay-200 text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-500">
+                Revolutionize Your Bookings
+            </h1>
+
+            <p class="opacity-0 transform translate-y-10 animate-slide-in-up animate-delay-300 text-xl text-gray-200 leading-relaxed">
+                Intelligent, adaptive reservation platform that transforms how you manage and schedule your services. 
+                Seamless, intuitive, and powered by cutting-edge technology.
+            </p>
+
+            <div class="opacity-0 transform translate-y-10 animate-slide-in-up animate-delay-400 flex space-x-4">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg hover:shadow-blue-500/50 animate-pulse-soft">
+                    Get Started
+                </button>
+                <button class="border border-white/20 text-gray-200 hover:bg-white/10 px-8 py-3 rounded-full transition transform hover:scale-105">
+                    Learn More
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Content - Animated Booking Mockup -->
+        <div class="relative">
+            <div class="opacity-0 transform translate-x-10 animate-slide-in-right animate-delay-500 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-6 relative overflow-hidden">
+                <!-- Glowing Border Effect -->
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent animate-border-shine"></div>
+                
+                <div class="relative z-10 flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-white">Reservation Preview</h2>
+                    <div class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">
+                        #BOOK2024
+                    </div>
+                </div>
+
+                <!-- Booking Details with Subtle Animations -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 transform hover:scale-105 transition-transform">
+                        <div class="bg-blue-500/20 p-3 rounded-full animate-pulse-soft">
+                            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-gray-300">Booking Date</p>
+                            <p class="text-white font-semibold">June 15, 2024</p>
+                        </div>
+                    </div>
+                    <!-- More booking details... -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {%block content%}
+    
+    {%endblock %}
+</body>
+</html>
